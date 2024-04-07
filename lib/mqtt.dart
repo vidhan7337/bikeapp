@@ -50,6 +50,30 @@ class MQTTClientWrapper {
     }
   }
 
+  void adminStartRealTime(String id, List<String> cycleIDs) async {
+    setupMqttClient(id);
+    await connectClient();
+
+    for (var cycleID in cycleIDs) {
+      publishMessage("1", 'protech/location/$cycleID');
+      adminsubscribeToTopic('protech/lat/$cycleID', cycleID);
+      publishMessage('1', 'protech/realtime/$cycleID');
+    }
+  }
+
+  void adminEndtRealTime(String id, List<String> cycleIDs) async {
+    setupMqttClient(id);
+    await connectClient();
+
+    for (var cycleID in cycleIDs) {
+      publishMessage("1", 'protech/location/$cycleID');
+      adminsubscribeToTopic('protech/lat/$cycleID', cycleID);
+      publishMessage("0", 'protech/realtime/$cycleID');
+    }
+  }
+
+
+
   void adminCycleOption(String id, String cycleID) async {
     setupMqttClient(id);
     await connectClient();
@@ -252,7 +276,8 @@ class MQTTClientWrapper {
       print(message);
       if (message != "unlocked" && message != "locked") {
         final splitMsg = message.split(',');
-        FirebaseFirestore.instance.collection('cycles').doc(cycleID).update({
+        print(splitMsg[6]);
+        FirebaseFirestore.instance.collection('cycles').doc(splitMsg[6]).set({
           'latitude': double.parse(splitMsg[0]),
           'longitude': double.parse(splitMsg[1]),
           'user_id': splitMsg[2],
@@ -260,6 +285,7 @@ class MQTTClientWrapper {
           'ebike_battery': splitMsg[4],
           'lock_battery': splitMsg[5],
         });
+        
       } else if (message == "unlocked") {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('unlocked', true);

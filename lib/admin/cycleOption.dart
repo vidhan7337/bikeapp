@@ -170,7 +170,7 @@ class _CycleOptionState extends State<CycleOption> {
                               'The Cycle is currently in use by Name :',
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
+                                  fontSize: screenHeight * 0.018),
                               textAlign: TextAlign.center,
                             )
                           : Text(
@@ -178,7 +178,7 @@ class _CycleOptionState extends State<CycleOption> {
                                   userName!,
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
+                                  fontSize: screenHeight * 0.018),
                               textAlign: TextAlign.center,
                             ),
                     ),
@@ -189,16 +189,24 @@ class _CycleOptionState extends State<CycleOption> {
                               "Cycle Status :",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
+                                  fontSize: screenHeight * 0.018),
                               textAlign: TextAlign.center,
                             )
-                          : Text(
-                              "Cycle Status :" + lockStatus!,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
-                              textAlign: TextAlign.center,
-                            ),
+                          : lockStatus == '0'
+                              ? Text(
+                                  "Cycle Status : locked",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: screenHeight * 0.018),
+                                  textAlign: TextAlign.center,
+                                )
+                              : Text(
+                                  "Cycle Status : unlocked",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: screenHeight * 0.018),
+                                  textAlign: TextAlign.center,
+                                ),
                     ),
                     SizedBox(
                       width: screenWidth,
@@ -207,14 +215,14 @@ class _CycleOptionState extends State<CycleOption> {
                               "Ebike Battery: , Lock Battery: ",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
+                                  fontSize: screenHeight * 0.018),
                               textAlign: TextAlign.center,
                             )
                           : Text(
                               "Ebike Battery: $ebikeBattery, Lock Battery: $lockBattery",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: screenHeight * 0.0225),
+                                  fontSize: screenHeight * 0.018),
                               textAlign: TextAlign.center,
                             ),
                     ),
@@ -222,6 +230,7 @@ class _CycleOptionState extends State<CycleOption> {
                 )),
             Container(
               height: MediaQuery.of(context).size.height / 13,
+              margin: const EdgeInsets.only(left: 5, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
